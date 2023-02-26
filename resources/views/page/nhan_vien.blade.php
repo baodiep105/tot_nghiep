@@ -47,6 +47,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="issueinput6">Loại</label>
+                                        <select v-model="role" name="status" class="form-control">
+                                            <option value="1">Nhân Viên</option>
+                                            <option value="0">Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-actions right">
@@ -80,6 +89,7 @@
                                             <th>#</th>
                                             <th>user name</th>
                                             <th>Email</th>
+                                            <th>Chức Vụ</th>
                                             <th>Ngày tạo</th>
                                             <th>Action</th>
                                         </tr>
@@ -89,6 +99,12 @@
                                             <th class="text-center align-middle">@{{ key + 1 }}</th>
                                             <td class="align-middle">@{{ value.username }}</td>
                                             <td class="align-middle">@{{ value.email }}</td>
+                                            <template v-if="value.id_loai==1">
+                                                <td class="align-middle text-center">Nhân Viên</td>
+                                            </template>
+                                            <template v-else>
+                                                <td class="align-middle text-center">Admin</td>
+                                            </template>
                                             <td class="align-middle text-center">@{{ value.created_at }}</td>
                                             <td class="text-center">
                                                 <a href="" data-toggle="modal" data-target="#editModal"
@@ -145,7 +161,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" v-model="idEdit">
+                    <input type="text" v-model="idEdit" hidden>
                     <div class="position-relative form-group">
                         <label>password</label>
                         <input placeholder="Nhập vào tên danh mục" v-model="password_edit" type="password"

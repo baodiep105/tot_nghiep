@@ -34,7 +34,8 @@ class donhangRequest extends FormRequest
     {
         return [
             'required'      =>  ':attribute không được để trống',
-            'max'           =>  ':attribute quá dài',
+            'max'           =>  ':attribute phải đúng 10 chữ số',
+            'min'           =>  ':attribute phải đúng 10 chữ số',
             'exists'        =>  ':attribute không tồn tại',
             'boolean'       =>  ':attribute chỉ được chọn True/False',
             'unique'        =>  ':attribute đã tồn tại',

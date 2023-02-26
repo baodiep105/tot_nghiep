@@ -18,16 +18,17 @@ class KhuyenMaiController extends Controller
 
     public function getData()
     {
-
-        // $sanPham =DB::table('san_phams')
-        //             ->join('hinh_anh','san_phams.id','hinh_anh.id')
-        //             ->select('san_phams.ten_san_pham','hinh_anh.hinh_anh')
-        //             ->get();
+        $sanPham = DB::table('san_phams')
+            ->join('hinh_anh', 'san_phams.id', 'hinh_anh.id')
+            ->select('san_phams.ten_san_pham', 'hinh_anh.hinh_anh')
+            ->get();
         $sanPham = SanPham::where('is_open', 1)->get();
-        $khuyen_mai=DB::table('khuyen_mai')->join('san_phams','khuyen_mai.id_san_pham','san_phams.id')->select('khuyen_mai.*','san_phams.ten_san_pham')->orderBy('created_at','DESC')->get();
+        $khuyen_mai = DB::table('khuyen_mai')
+                ->join('san_phams', 'khuyen_mai.id_san_pham', 'san_phams.id')
+                ->select('khuyen_mai.*', 'san_phams.ten_san_pham')->orderBy('created_at', 'DESC')->get();
         return response()->json([
             'sanPham'  => $sanPham,
-            'ds_khuyen_mai'=>$khuyen_mai,
+            'ds_khuyen_mai' => $khuyen_mai,
         ]);
     }
     public function create(KhuyenMaiRequest $request)
@@ -102,9 +103,9 @@ class KhuyenMaiController extends Controller
         $khuyen_mai = KhuyenMai::find($request->idEdit);
         if ($khuyen_mai) {
             $khuyen_mai->update([
-                'id_san_pham'=>$request->id_san_pham_edit,
-                'ty_le'=>$request->ty_le_edit,
-                'is_open'=>$request->is_open_edit,
+                'id_san_pham' => $request->id_san_pham_edit,
+                'ty_le' => $request->ty_le_edit,
+                'is_open' => $request->is_open_edit,
             ]);
             return response()->json([
                 'status' => true,
@@ -117,4 +118,23 @@ class KhuyenMaiController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+
+        if($request->all()==null){
+            $data=DB::table('khuyen_mai')
+            ->join('san_phams','khuyen_mai.id_san_pham','san_phams.id')
+            ->select('khuyen_mai.*','san_phams.ten_san_pham')
+            ->get();
+        }
+        else{
+            $data=DB::table('khuyen_mai')
+            ->join('san_phams','khuyen_mai.id_san_pham','san_phams.id')
+            ->where('san_phams.ten_san_pham', 'like', '%' . $request->search .'%')
+            ->orwhere('khuyen_mai.ty_le', 'like', '%' . $request->search .'%')
+            ->select('khuyen_mai.*','san_phams.ten_san_pham')
+            ->get();
+        }
+        return response()->json(['dataProduct' => $data]);
+    }
 }

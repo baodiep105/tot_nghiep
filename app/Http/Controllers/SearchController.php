@@ -17,24 +17,24 @@ class SearchController extends Controller
     public function dataProduct()
     {
         $dataProduct = SanPham::where('is_open', 1)->paginate();
-        $hinh_anh=DB::table('hinh_anh')->get();
-        $id=array();
-        foreach($dataProduct as $value){
-            array_push($id,$value->id);
+        $hinh_anh = DB::table('hinh_anh')->get();
+        $id = array();
+        foreach ($dataProduct as $value) {
+            array_push($id, $value->id);
         }
-        $anh=array();
-        foreach($id as $key)
-            foreach($hinh_anh as $value){
-                if($key==$value->id_san_pham){
-                    array_push($anh,$value);
+        $anh = array();
+        foreach ($id as $key)
+            foreach ($hinh_anh as $value) {
+                if ($key == $value->id_san_pham) {
+                    array_push($anh, $value);
                     break;
                 }
             }
 
-        foreach($dataProduct as $value){
-            foreach($anh as $key){
-                if($value->id==$key->id_san_pham){
-                    $value->hinh_anh=$key->hinh_anh;
+        foreach ($dataProduct as $value) {
+            foreach ($anh as $key) {
+                if ($value->id == $key->id_san_pham) {
+                    $value->hinh_anh = $key->hinh_anh;
                     break;
                 }
             }
@@ -53,53 +53,37 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        if(!$request->search){
-            $data = SanPham::where('is_open', 1)->paginate(8);
-        }else{
-            $exist = DB::table('san_phams')
-            ->join('chi_tiet_san_pham', 'san_phams.id', 'chi_tiet_san_pham.id_sanpham')
-            ->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
-            ->join('size', 'chi_tiet_san_pham.id_size', 'size.id')
-            ->orWhere('size.size', 'like', '%' .  $request->search . '%')
-            ->orWhere('mau_sac.ten_mau', 'like', '%' .  $request->search . '%')
-            ->select('san_phams.*', 'size.size', 'mau_sac.ten_mau')->exists();
-
-        if ($exist) {
-            // $data = DB::table('san_phams')
-            //     ->join('chi_tiet_san_pham', 'san_phams.id', 'chi_tiet_san_pham.id_sanpham')
-            //     ->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
-            //     ->join('size', 'chi_tiet_san_pham.id_size', 'size.id')
-            //     ->Where('size.size', 'like', '%' .  $request->search . '%')
-            //     ->orWhere('mau_sac.ten_mau', 'like', '%' .  $request->search . '%')
-            //     ->select('san_phams.*', 'size.size', 'mau_sac.ten_mau')->paginate(8);
-            // $sql='select * from san_phams '
+        if (!$request->search) {
+            $data = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->where('san_phams.is_open', 1)->paginate(8);
         } else {
-            $data = DB::table('san_phams')->join('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
+            $data = DB::table('san_phams')
+                ->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                ->leftjoin('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
+                ->where('san_phams.is_open',1)
                 ->where('san_phams.ten_san_pham', 'like', '%' .  $request->search . '%')
                 ->orWhere('danh_muc_san_phams.ten_danh_muc', 'like', '%' .  $request->search . '%')
                 ->orWhere('san_phams.brand', 'like', '%' .  $request->search . '%')
-                ->select('san_phams.*', 'danh_muc_san_phams.ten_danh_muc')
+                ->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai ', 'danh_muc_san_phams.ten_danh_muc')
                 ->paginate(8);
         }
+        $hinh_anh = DB::table('hinh_anh')->get();
+        $id = array();
+        foreach ($data as $value) {
+            array_push($id, $value->id);
         }
-        $hinh_anh=DB::table('hinh_anh')->get();
-        $id=array();
-        foreach($data as $value){
-            array_push($id,$value->id);
-        }
-        $anh=array();
-        foreach($id as $key)
-            foreach($hinh_anh as $value){
-                if($key==$value->id_san_pham){
-                    array_push($anh,$value);
+        $anh = array();
+        foreach ($id as $key)
+            foreach ($hinh_anh as $value) {
+                if ($key == $value->id_san_pham) {
+                    array_push($anh, $value);
                     break;
                 }
             }
 
-        foreach($data as $value){
-            foreach($anh as $key){
-                if($value->id==$key->id_san_pham){
-                    $value->hinh_anh=$key->hinh_anh;
+        foreach ($data as $value) {
+            foreach ($anh as $key) {
+                if ($value->id == $key->id_san_pham) {
+                    $value->hinh_anh = $key->hinh_anh;
                     break;
                 }
             }
@@ -120,77 +104,77 @@ class SearchController extends Controller
         ]);
     }
 
-    public function sapXep($value){
-        if($value==4){
-            $data=SanPham::orderBy('gia_ban','ASC')->paginate(8);
-        }else if($value==5){
-            $data=SanPham::orderBy('gia_ban','DESC')->paginate(8);
+    public function sapXep($value)
+    {
+        if ($value == 4) {
+            $data = SanPham::orderBy('gia_ban', 'ASC')->paginate(8);
+        } else if ($value == 5) {
+            $data = SanPham::orderBy('gia_ban', 'DESC')->paginate(8);
         }
-        $hinh_anh=DB::table('hinh_anh')->get();
-        $id=array();
-        foreach($data as $value){
-            array_push($id,$value->id);
+        $hinh_anh = DB::table('hinh_anh')->get();
+        $id = array();
+        foreach ($data as $value) {
+            array_push($id, $value->id);
         }
-        $anh=array();
-        foreach($id as $key)
-            foreach($hinh_anh as $value){
-                if($key==$value->id_san_pham){
-                    array_push($anh,$value);
+        $anh = array();
+        foreach ($id as $key)
+            foreach ($hinh_anh as $value) {
+                if ($key == $value->id_san_pham) {
+                    array_push($anh, $value);
                     break;
                 }
             }
-        foreach($data as $value){
-            foreach($anh as $key){
-                if($value->id==$key->id_san_pham){
-                    $value->hinh_anh=$key->hinh_anh;
+        foreach ($data as $value) {
+            foreach ($anh as $key) {
+                if ($value->id == $key->id_san_pham) {
+                    $value->hinh_anh = $key->hinh_anh;
                     break;
                 }
             }
         }
         return response()->json([
-            'status' =>'success',
-            'data'=> $data,
+            'status' => 'success',
+            'data' => $data,
         ]);
-
     }
     public function locSanPham(Request $request)
     {
-    //     if ($request->mau == null && $size == null) {
-    //         $data = DB::table('san_phams')->paginate(8);
+        //     if ($request->mau == null && $size == null) {
+        //         $data = DB::table('san_phams')->paginate(8);
 
-    //         return response()->json([
-    //             'status' => true,
-    //             'data' =>  $data,
-    //         ]);
-    //     } else if ($request->mau == null) {
-    //         $data = DB::table('chi_tiet_san_pham')->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
-    //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
-    //             ->where('chi_tiet_san_pham.id_size', $size)
-    //             ->select('san_phams.*')->paginate(8);
-    //         return response()->json([
-    //             'status' => true,
-    //             'data' =>  $data,
-    //         ]);
-    //     } else if ($size == null) {
-    //         $data = DB::table('chi_tiet_san_pham')
-    //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
-    //             ->Where('chi_tiet_san_pham.id_mau', $request->mau)
-    //             ->select('san_phams.*')->paginate(8);
-    //         return response()->json([
-    //             'status' => true,
-    //             'data' =>  $data,
-    //         ]);
-    //     } else if ($size == null) {
-    //         $data = DB::table('chi_tiet_san_pham')
-    //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
-    //             ->Where('chi_tiet_san_pham.id_size',  $size)
-    //             ->Where('chi_tiet_san_pham.id_mau',  $request->mau)
-    //             ->select('san_phams.*')->paginate(8);
-    //         return response()->json([
-    //             'status' => true,
-    //             'data' =>  $data,
-    //         ]);
-    //     }
+        //         return response()->json([
+        //             'status' => true,
+        //             'data' =>  $data,
+        //         ]);
+        //     } else if ($request->mau == null) {
+        //         $data = DB::table('chi_tiet_san_pham')->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
+        //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
+        //             ->where('chi_tiet_san_pham.id_size', $size)
+        //             ->select('san_phams.*')->paginate(8);
+        //         return response()->json([
+        //             'status' => true,
+        //             'data' =>  $data,
+        //         ]);
+        //     } else if ($size == null) {
+        //         $data = DB::table('chi_tiet_san_pham')
+        //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
+        //             ->Where('chi_tiet_san_pham.id_mau', $request->mau)
+        //             ->select('san_phams.*')->paginate(8);
+        //         return response()->json([
+        //             'status' => true,
+        //             'data' =>  $data,
+        //         ]);
+        //     } else if ($size == null) {
+        //         $data = DB::table('chi_tiet_san_pham')
+        //             ->join('san_phams', 'chi_tiet_san_pham.id_sanpham', 'san_phams.id')
+        //             ->Where('chi_tiet_san_pham.id_size',  $size)
+        //             ->Where('chi_tiet_san_pham.id_mau',  $request->mau)
+        //             ->select('san_phams.*')->paginate(8);
+        //         return response()->json([
+        //             'status' => true,
+        //             'data' =>  $data,
+        //         ]);
+        //     }
 
 
     }

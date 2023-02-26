@@ -11,11 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class SanPhamController extends Controller
 {
     public function index()
     {
-        return view('admin.san_pham');
+        if(Auth::guard('users')->user()->id_loai==0){
+            return view('admin.san_pham');
+        }else if(Auth::guard('users')->user()->id_loai==1){
+            return view('nhan_vien.san_pham');
+        }
+
     }
 
     public function show(){
@@ -30,9 +37,11 @@ class SanPhamController extends Controller
     }
     public function getData()
     {
+
         $danhSachSanPham=DB::table('san_phams')
                 ->join('danh_muc_san_phams','danh_muc_san_phams.id','=','san_phams.id_danh_muc')
                 ->select('san_phams.*','danh_muc_san_phams.ten_danh_muc',)
+                ->orderBy('created_at','DESC')
                 ->get();
         $danhSachDanhMuc = DanhMucSanPham::all();
         return response()->json([
@@ -96,7 +105,7 @@ class SanPhamController extends Controller
         $san_pham = SanPham::find($id);
 
         if($san_pham) {
-            ChiTietSanPhamModel::where('id_san_pham',$id)->delete();
+            ChiTietSanPhamModel::where('id_sanpham',$id)->delete();
             $san_pham->delete();
             return response()->json(['status' => true]);
         } else {

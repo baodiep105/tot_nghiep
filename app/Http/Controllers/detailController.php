@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\request as RequestsRequest;
 use App\Models\ChiTietSanPhamModel;
 use App\Models\DanhGia;
+use App\Models\DonHang;
 use App\Models\SanPham;
 use ChiTietSanPham;
 use GrahamCampbell\ResultType\Success;
@@ -19,14 +20,15 @@ class detailController extends Controller
 {
     public function detail($id)
     {   //chi tiet san pham
-        $detail = DB::table('san_phams')
+        $detail = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
             ->join('danh_muc_san_phams', 'san_phams.id_danh_muc', 'danh_muc_san_phams.id')
             ->where('san_phams.id', $id)
-            ->select('san_phams.*', 'danh_muc_san_phams.ten_danh_muc')->first();
+            ->select('san_phams.*', 'danh_muc_san_phams.ten_danh_muc', 'khuyen_mai.ty_le as khuyen_mai')->first();
         //list mau
         $mau = DB::table('chi_tiet_san_pham')
             ->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
             ->where('chi_tiet_san_pham.id_sanpham', $id)
+            ->where('chi_tiet_san_pham.status', 1)
             ->select('mau_sac.id', 'mau_sac.ten_mau', 'mau_sac.hex')
             ->groupBy('mau_sac.id', 'mau_sac.ten_mau', 'mau_sac.hex')
             ->get();
@@ -34,13 +36,18 @@ class detailController extends Controller
         $size = DB::table('chi_tiet_san_pham')
             ->join('size', 'chi_tiet_san_pham.id_size', 'size.id')
             ->where('chi_tiet_san_pham.id_sanpham', $id)
+            ->where('chi_tiet_san_pham.status', 1)
             ->select('size.id', 'size.size')
             ->groupBy('size.id', 'size.size')
             ->get();
         //dd($size);
         //thêm thuộc tính ảnh cho sản phẩm liên quan
         $id_danh_muc = $detail->id_danh_muc;
-        $lienquan = DB::table('san_phams')->where('id_danh_muc', $id_danh_muc)->take(5)->get();
+        $lienquan = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+            ->where('san_phams.is_open', 1)
+            ->where('id_danh_muc', $id_danh_muc)
+            ->where('san_phams.id', '<>', $id)
+            ->select('san_phams.*', 'khuyen_mai.ty_le as khuyen_mai')->take(5)->get();
         $hinh_anh = DB::table('hinh_anh')->get();
         $id_san_pham = array();
         foreach ($lienquan as $value) {
@@ -66,7 +73,7 @@ class detailController extends Controller
         //tất cả ảnh của sản phẩm
         $anh = DB::table('hinh_anh')->where('id_san_pham', $id)->get();
         //show số lượng chi tiết
-        $tong = ChiTietSanPhamModel::where('id_sanpham', $id)->sum('sl_chi_tiet');
+        $tong = ChiTietSanPhamModel::where('id_sanpham', $id)->where('status', 1)->sum('sl_chi_tiet');
         $so_luong_object = new stdClass; //---------------------------------------------------object tổng-----------------------------------------------------------------
         $so_luong_object->tong = $tong;
         $chi_tiet_mau_array = array();     //khởi tạo mảng chi tiết màu
@@ -81,6 +88,7 @@ class detailController extends Controller
                 ->join('mau_sac', 'chi_tiet_san_pham.id_mau', 'mau_sac.id')
                 ->where('chi_tiet_san_pham.id_sanpham', $id)
                 ->where('mau_sac.id', $value->id)
+                ->where('status', 1)
                 ->select('mau_sac.id', 'mau_sac.ten_mau', 'mau_sac.hex')
                 ->sum('sl_chi_tiet');
             foreach ($size as $items) {
@@ -90,6 +98,7 @@ class detailController extends Controller
                     ->where('chi_tiet_san_pham.id_sanpham', $id)
                     ->where('mau_sac.id', $value->id)
                     ->where('size.id', $items->id)
+                    ->where('status', 1)
                     ->exists();
                 if ($is_exists) { //Kiểm tra có tồn tại không nếu có khởi tạo object chi tiết size va thêm vào mảng chi_tiet_size array
                     $chi_tiet_size_object = new stdClass;    //khởi tạo object chi tiết size
@@ -99,6 +108,7 @@ class detailController extends Controller
                         ->where('chi_tiet_san_pham.id_sanpham', $id)
                         ->where('mau_sac.id', $value->id)
                         ->where('size.id', $items->id)
+                        ->where('status', 1)
                         ->select('chi_tiet_san_pham.*', 'size.size',)
                         ->first();
                     $chi_tiet_size_object->id_chi_tiet_san_pham = $chi_tiet_size->id;                     //thêm thuộc tính id_chi_tiet_san_pham cho object chi tiết size
@@ -125,27 +135,45 @@ class detailController extends Controller
 
     public function danhGia($id, Request $request)
     {
+
         $rules = [
             'email' => 'required|email',
             'content'  => 'required|min:6',
             'sao' => 'required|numeric',
         ];
+        // dd( $request->email);
         $input     = $request->all();
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'error' => $validator->errors()]);
         }
-        $danh_gia = DanhGia::create([
-            'content'   => $request->content,
-            'rate'       => $request->sao,
-            'email' => $request->email,
-            'id_san_pham' => $id,
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'data'  => $danh_gia,
-        ]);
+        $exist = DB::table('chi_tiet_don_hangs as ct')
+            ->join('don_hangs as dh', 'ct.don_hang_id', 'dh.id')
+            ->join('chi_tiet_san_pham as ctsp', 'ct.id_chi_tiet_san_pham', 'ctsp.id')
+            ->where('dh.email', $request->email)
+            ->where('ctsp.id_sanpham', $id)
+            ->get();
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data'  => $exist,
+            // ]);
+        if ($exist) {
+            $danh_gia = DanhGia::create([
+                'content'   => $request->content,
+                'rate'       => $request->sao,
+                'email' => $request->email,
+                'id_san_pham' => $id,
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'data'  => $danh_gia,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'bạn cần phải mua hàng để đánh giá'
+            ]);
+        }
     }
 
     public function listDanhGia($id)
@@ -161,7 +189,7 @@ class detailController extends Controller
     {
         $chi_tiet_san_pham = ChiTietSanPhamModel::where('id', $request->id_chi_tiet_san_pham)->first();
         if ($chi_tiet_san_pham) {
-            if ($chi_tiet_san_pham->sl_chi_tiet-$request->so_luong>=0) {
+            if ($chi_tiet_san_pham->sl_chi_tiet - $request->so_luong >= 0) {
                 $chi_tiet_san_pham->sl_chi_tiet = $chi_tiet_san_pham->sl_chi_tiet - $request->so_luong;
                 $chi_tiet_san_pham->save();
                 return response()->json([
@@ -170,15 +198,13 @@ class detailController extends Controller
                 ]);
             }
             return response()->json([
-                'status'=>'erros',
-                'message'=>'số lượng không đủ',
+                'status' => 'erros',
+                'message' => 'số lượng không đủ',
             ]);
         }
         return response()->json([
             'status'    => 'error',
-            'message'   =>'sản phẩm không tồn tại',
+            'message'   => 'sản phẩm không tồn tại',
         ]);
     }
-
-    
 }

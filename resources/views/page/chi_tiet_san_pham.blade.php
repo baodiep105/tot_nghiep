@@ -1,9 +1,9 @@
 <div id="app">
-    <div class="row justify-content-end mb-2">
-        <div class="col-md-5">
-            <div class="input-group ">
-                <input type="text" class="form-control" placeholder="search" aria-label="Nhập chi tiết sản phẩm cần tìm"
-                    aria-describedby="button-addon2">
+    <div class="row mt-2 ml-2">
+        <div class="col-md-4">
+            <div class="input-group mb-2 ">
+                <input type="text" v-model="inputSearch" class="form-control" placeholder="search"
+                    aria-label="Nhập danh mục cần tìm" aria-describedby="button-addon2">
                 <button v-on:click="search()"class="btn btn-outline-secondary" type="button"
                     id="button-addon2">search</button>
             </div>
@@ -26,7 +26,6 @@
                                         <select v-model="id_sanpham" id="issueinput6" class="form-control"
                                             data-toggle="tooltip" data-trigger="hover" data-placement="top"
                                             data-title="Status" data-original-title="" title="">
-                                            <option value="">Root</option>
                                             <template v-for="(value, key) in danh_sach_san_pham">
                                                 <option v-bind:value="value.id">@{{ value.ten_san_pham }}</option>
                                             </template>

@@ -127,7 +127,9 @@ class ChiTietSanPhamController extends Controller
                 ->where('id_mau', $request->id_mau,)
                 ->where('id_size', $request->id_size)
                 ->first();
-            if ($exist->id == $request->id) {
+                // dd($exist);
+
+            if ($exist==null) {
                 $chi_tiet_san_pham->update([
                     'id_sanpham' => $request->id_sanpham,
                     'id_mau' => $request->id_mau,

@@ -59,7 +59,7 @@
                         .then((res) => {
                             if (res.data.status) {
                                 toastr.success('Đã xóa danh mục thành công');
-                                this.getData();
+                                this.loadData();
                             } else {
                                 toastr.error('Danh mục không tồn tại');
                             }
@@ -74,26 +74,26 @@
                         });
                 },
 
-                search() {
+                  search() {
                     var payload = {
                         'search': this.inputSearch,
                     };
                     axios
-                        .post('/admin/san-pham/search', payload)
+                        .post('/admin/quan-ly-anh/search', payload)
                         .then((res) => {
-                            this.danhSachSanPham = res.data.dataProduct;
+                            this.ds_anh = res.data.data;
                         });
                 },
-
                 editDanhMuc(id) {
                     this.idEdit=id;
+                    console.log(this.idEdit);
                     axios
                         .get('/admin/quan-ly-anh/edit/' + id)
                         .then((res) => {
                             if (res.data.status) {
                                 this.hinh_anh_edit = res.data.anh.hinh_anh;
                                 this.id_san_pham_edit = res.data.anh.id_san_pham;
-                                console.log(this.id_san_pham_edit);
+                                console.log(res.data.anh.id_san_pham);
                             } else {
                                 toastr.error('Danh mục không tồn tại');
                             }

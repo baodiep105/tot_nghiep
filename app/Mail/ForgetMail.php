@@ -25,7 +25,7 @@ class ForgetMail extends Mailable
 
     public function build()
     {
-        return $this->subject($this->tieu_de)->view('mail.sendMail', [
+        return $this->subject($this->tieu_de)->view('mail.forget_password', [
             'username' => $this->username,
             'hash'   => $this->hash,
         ]);

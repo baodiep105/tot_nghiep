@@ -23,9 +23,9 @@ class profileRequest extends FormRequest
      */
     public function rules()
     {   return [
-            'ho_ten'        =>  'required|min:5|max:30',
-            'sdt'           =>  'required|min:10|max:10',
-            'dia_chi'                =>  'required|',
+            'ho_ten'        =>  'required',
+            'sdt'           =>  'required',
+            'dia_chi'                =>  'required',
         ];
     }
 

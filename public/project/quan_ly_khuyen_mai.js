@@ -7,14 +7,14 @@
                 idDelete: 0,
                 inputSearch: '',
                 add:{
-                    id_san_pham:0,
-                    ty_le:0,
+                    id_san_pham:"",
+                    ty_le:"",
                     is_open:1,
                 },
                 update:{
                     idEdit: 0,
-                    id_san_pham_edit:0,
-                    ty_le_edit:0,
+                    id_san_pham_edit:"",
+                    ty_le_edit:"",
                     is_open_edit:1,
                 }
             },
@@ -63,16 +63,17 @@
                         })
                 },
 
-                search() {
-                    var payload = {
-                        'search': this.inputSearch,
-                    };
-                    axios
-                        .post('/admin/quan-ly-nhan-vien/search', payload)
-                        .then((res) => {
-                            this.list_vue = res.data.data;
-                        });
-                },
+                // search() {
+                //     var payload = {
+                //         'search': this.inputSearch,
+                //     };
+                //     axios
+                //         .post('/admin/quan-ly-khuyen-mai/search', payload)
+                //         .then((res) => {
+                //             this.list_vue = res.data.data;
+                //             console.log( res.data.data);
+                //         });
+                // },
 
                 deletekhuyenmai(id) {
                     this.idDelete = id;
@@ -128,4 +129,3 @@
                 },
             },
         });
-    

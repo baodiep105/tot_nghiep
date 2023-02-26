@@ -7,6 +7,7 @@ use App\Http\Controllers\detailController;
 use App\Http\Controllers\filterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\lich_su_mua_hangController;
+use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SendMailController;
@@ -29,63 +30,64 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::middleware('auth:sanctum')->group(function(){
-    Route::get('/auth/me',[UserController::class,'getme']);
-    Route::post('/auth/logout',[UserController::class,'logout']);
-    Route::post('/auth/yeu-thich',[HomeController::class,'yeuthich']);
-    Route::get('/auth/yeu-thich',[HomeController::class,'yeu']);
-    Route::delete('/auth/yeu-thich/{id}',[HomeController::class,'deleteYeu']);
-    Route::post('/auth/danh-gia/{id}',[UserController::class,'danhgiaUser']);
-    Route::put('/auth/danh-gia/{id}',[UserController::class,'danhgiaUser']);
-    Route::put('/auth/update-profile',[UserController::class,'UpdateProfile']);
-    Route::get('/auth/lich-su-mua-hang',[lich_su_mua_hangController::class,'getData']);
-    Route::post('/auth/don-hang',[UserController::class,'DonHang']);
-    Route::delete('/auth/lich-su-mua-hang/delete/{id}',[lich_su_mua_hangController::class,'delete']);
-    Route::put('/auth/lich-su-mua-hang/detail/{id}',[lich_su_mua_hangController::class,'detail']);
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/me', [UserController::class, 'getme']);
+    Route::post('/auth/logout', [UserController::class, 'logout']);
+    Route::post('/auth/yeu-thich', [HomeController::class, 'yeuthich']);
+    Route::get('/auth/yeu-thich', [HomeController::class, 'yeu']);
+    Route::delete('/auth/yeu-thich/{id}', [HomeController::class, 'deleteYeu']);
+    Route::post('/auth/danh-gia/{id}', [UserController::class, 'danhgiaUser']);
+    Route::put('/auth/danh-gia/{id}', [UserController::class, 'danhgiaUser']);
+    Route::put('/auth/update-profile', [UserController::class, 'UpdateProfile']);
+    Route::get('/auth/lich-su-don-hang', [lich_su_mua_hangController::class, 'getData']);
+    Route::post('/auth/don-hang', [UserController::class, 'DonHang']);
+    // Route::get('/lich-su-mua-hang/detail/{id}',[lich_su_mua_hangController::class,'detail']);
+    Route::get('/check', [NhanVienController::class, 'check']);
 });
+// Route::post('/login',[loginController::class,'login']);
 
 // Route::post('/post/danhmuc',[DanhMucAPIController::class,'createCategory']);
 // Route::get('/get/danhmuc',[DanhMucAPIController::class,'index']);
-Route::post('/auth/register',[UserController::class,'register']);
-Route::post('/auth/login',[UserController::class,'login']);
+Route::post('/auth/register', [UserController::class, 'register']);
+Route::post('/auth/login', [UserController::class, 'login']);
 Route::get('/active/{hash}', [UserController::class, 'active']);
-// Route::get('/send-mail', [SendMailController::class, 'sendMail']);
-Route::get('/forget-password',[UserController::class,'forget']);
-
-
-
-    Route::group(['prefix'=>'home'],function(){
-        Route::get('/arrival',[HomeController::class,'arrival']);
-        Route::get('/product',[HomeController::class,'product']);
-        Route::get('/category',[HomeController::class,'danhMuc']);
-        Route::get('/banner',[HomeController::class,'banner']);
-        Route::get('/danh-muc/{id}',[filterController::class,'danhmuc']);
-
-    });
-    Route::group(['prefix'=>'search'],function(){
-        // Route::get('/data',[SearchController::class,'dataProduct']);
-        // Route::get('/filter',[SearchController::class,'locsanpham']);
-        Route::get('/keyword',[SearchController::class,'search']);
-        Route::get('/sort/{value}',[SearchController::class,'sapXep']);
-    });
-    Route::group(['prefix'=>'filter'],function(){
-        Route::get('/data',[filterController::class,'dataProduct']);
-        // Route::get('/filter',[filterController::class,'locsanpham']);
-        Route::get('/san-pham',[filterController::class,'filter']);
-        Route::get('/sort/{value}',[SearchController::class,'sapXep']);
-    });
-    Route::group(['prefix'=>'detail'],function(){
-        Route::get('/product/{id}', [detailController::class, 'detail']);
-        Route::post('/danh-gia/{id}', [detailController::class, 'danhGia']);
-        Route::get('/danh-gia/data/{id}', [detailController::class, 'listDanhGia']);
-        Route::post('/add-cart', [detailController::class, 'addCart']);
-    });
-    Route::group(['prefix'=>'don-hang'],function(){
-        Route::post('/create', [add_cartController::class, 'DonHang']);
-    });
+//Route::get('/send-mail', [SendMailController::class, 'sendMail']);
+Route::put('/forget-password', [UserController::class, 'forget_password']);
+Route::get('/confirm', [UserController::class, 'xac_nhan']);
+Route::put('/reset-password', [UserController::class, 'reset_password']);
+Route::post('/login',[loginController::class,'login']);
 
 
 
 
-
+Route::group(['prefix' => 'home'], function () {
+    Route::get('/arrival', [HomeController::class, 'arrival']);
+    Route::get('/product', [HomeController::class, 'product']);
+    Route::get('/category', [HomeController::class, 'danhMuc']);
+    Route::get('/banner', [HomeController::class, 'banner']);
+    Route::get('/danh-muc/{id}', [filterController::class, 'danhmuc']);
+});
+Route::group(['prefix' => 'search'], function () {
+    // Route::get('/data',[SearchController::class,'dataProduct']);
+    // Route::get('/filter',[SearchController::class,'locsanpham']);
+    Route::get('/keyword', [SearchController::class, 'search']);
+    Route::get('/sort/{value}', [SearchController::class, 'sapXep']);
+});
+Route::group(['prefix' => 'filter'], function () {
+    Route::get('/data', [filterController::class, 'dataProduct']);
+    // Route::get('/filter',[filterController::class,'locsanpham']);
+    Route::get('/san-pham', [filterController::class, 'filter']);
+    Route::get('/sort/{value}', [SearchController::class, 'sapXep']);
+});
+Route::group(['prefix' => 'detail'], function () {
+    Route::get('/product/{id}', [detailController::class, 'detail']);
+    Route::post('/danh-gia/{id}', [detailController::class, 'danhGia']);
+    Route::get('/danh-gia/data/{id}', [detailController::class, 'listDanhGia']);
+    Route::post('/add-cart', [detailController::class, 'addCart']);
+});
+Route::group(['prefix' => 'don-hang'], function () {
+    Route::post('/create', [add_cartController::class, 'DonHang']);
+    Route::get('/lich-su-don-hang', [add_cartController::class, 'LichSuDonHang']);
+    Route::get('/lich-su-mua-hang/detail/{id}', [add_cartController::class, 'detail']);
+});
+Route::post('/login', [NhanVienController::class, 'login']);

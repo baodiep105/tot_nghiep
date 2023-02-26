@@ -4,7 +4,7 @@
             <div class="card mb-5" style="height: auto">
                 <div class="card-header">
                     <h4 class="card-title text-cnter" id="basic-layout-colored-form-control"> <i
-                            class="fa-solid fa-gear"></i> Cấu Hình Trang Chủ</h4>
+                            class="fa-solid fa-gear"></i>Thêm Banner</h4>
                 </div>
                 <div class="card-content collapse show">
                     <div class="card-body">
@@ -128,23 +128,23 @@
                                         <th class="text-nowrap text-center">@{{ key + 1 }}</th>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.banner_1" alt="">
+                                            v-bind:src="'{{env('APP_URL')}}'+value.banner_1" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.banner_2" alt="">
+                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_2" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.banner_3" alt="">
+                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_3" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.banner_4" alt="">
+                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_4" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.banner_5" alt="">
+                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_5" alt="">
                                         </td>
                                         <td>
                                             <template v-if="value.is_open==1">
@@ -210,7 +210,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" v-model="update.idEdit">
+                    <input type="text" v-model="update.idEdit" hidden>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="issueinput6">baner 1</label>

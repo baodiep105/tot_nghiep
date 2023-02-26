@@ -26,7 +26,7 @@ class ChiTietSanPhamRequest extends FormRequest
             'id_sanpham'        =>  'required|exists:san_phams,id',
             'id_mau'            =>  'required|exists:mau_sac,id',
             'id_size'           =>  'required|exists:size,id',
-            'sl'                =>  'required|numeric|min_digits:1',
+            'sl'                =>  'required|numeric|min:1',
             'trang_thai'        =>  'required|boolean',
         ];
     }
@@ -39,6 +39,7 @@ class ChiTietSanPhamRequest extends FormRequest
             'exists'        =>  ':attribute không tồn tại',
             'boolean'       =>  ':attribute chỉ được chọn True/False',
             'unique'        =>  ':attribute đã tồn tại',
+            'min'           =>  ':attribute phải lớn hơn 0',
         ];
     }
 

@@ -175,7 +175,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" v-model="idDelete" placeholder="Nhập vào id cần xóa">
+                    <input type="text" class="form-control" v-model="idDelete" placeholder="Nhập vào id cần xóa" hidden>
                     Bạn có chắc chắn muốn xóa? Điều này không thể hoàn tác.
                 </div>
                 <div class="modal-footer">
@@ -187,18 +187,18 @@
         </div>
     </div>
     <div class="modal fade" id="deleteMauModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Xóa Màu</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <input type="text" class="form-control" v-model="idDeleteMau"
-                        placeholder="Nhập vào id cần xóa">
+                        placeholder="Nhập vào id cần xóa" hidden>
                     Bạn có chắc chắn muốn xóa? Điều này không thể hoàn tác.
                 </div>
                 <div class="modal-footer">

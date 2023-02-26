@@ -79,9 +79,9 @@
                         'search': this.inputSearch,
                     };
                     axios
-                        .post('/admin/san-pham/search', payload)
+                        .post('/admin/quan-ly-anh/search', payload)
                         .then((res) => {
-                            this.danhSachSanPham = res.data.dataProduct;
+                            this.ds_anh = res.data.data;
                         });
                 },
 

@@ -30,6 +30,7 @@ class DanhMucSanPham extends FormRequest
         return [
             'ten_danh_muc'      =>  'required|max:50|unique:danh_muc_san_phams,ten_danh_muc',
             'id_danh_muc_cha'   =>  'nullable|exists:danh_muc_san_phams,id',
+            'hinh_anh'          =>  'required',
             'is_open'           =>  'required|boolean',
         ];
     }

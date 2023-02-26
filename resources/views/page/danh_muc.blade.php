@@ -100,7 +100,7 @@
                                         <tr class="text-center">
                                             <th>#</th>
                                             <th>Tên Danh Mục</th>
-                                            <th>Danh Mục Cha</th>
+                                            <td>Danh Mục Cha</th>
                                             <th>Ảnh đại diện</th>
                                             <th>Tình Trạng</th>
                                             <th>Action</th>
@@ -110,9 +110,9 @@
                                         <tr v-for="(value, key) in list_vue">
                                             <th class="text-center align-middle">@{{ key + 1 }}</th>
                                             <td class="align-middle">@{{ value.ten_danh_muc }}</td>
-                                            <td class="text-center align-middle">@{{ value.ten_danh_muc_cha === null ? 'Root' : value.ten_danh_muc_cha }}</td>
+                                            <td class="text-center align-middle">@{{ value.id_danh_muc_cha === null ||value.id_danh_muc_cha == 0 ? 'Root' : value.ten_danh_muc_cha }}</td>
                                             <td>
-                                                <img style="height: 50px;width:50px" v-bind:src="'http://127.0.0.1:8000'+value.hinh_anh" alt="">
+                                                <img style="height: 50px;width:50px" v-bind:src="'{{env('APP_URL')}}'+value.hinh_anh" alt="">
                                             </td>
                                             <td>
                                                 <template v-if="value.is_open==1">
@@ -182,7 +182,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" v-model="idEdit">
+                    <input type="text" v-model="idEdit" hidden>
                     <div class="position-relative form-group">
                         <label>Tên Danh Mục</label>
                         <input placeholder="Nhập vào tên danh mục" v-model="ten_danh_muc_edit" type="text"
@@ -191,7 +191,7 @@
                     <div class="position-relative form-group">
                         <label>Danh Mục Cha</label>
                         <select v-model="id_danh_muc_cha_edit" class="form-control">
-                            <option value=0>Root</option>
+                            <option>Root</option>
                             {{-- <option value="0" selected>Root</option> --}}
                             <template v-for="(value, key) in danh_muc_cha_vue">
                                 <option v-bind:value="value.id">@{{ value.ten_danh_muc }}</option>

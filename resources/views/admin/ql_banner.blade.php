@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    <H1><b>Danh Mục Sản Phẩm</b></H1>
+    <H1><b>Quản Lý Banner</b></H1>
 @endsection
 @section('content')
     @include('page.banner')

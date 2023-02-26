@@ -25,7 +25,7 @@ class KhuyenMaiRequest extends FormRequest
     {
         return [
             'id_san_pham'          =>   'required|exists:san_phams,id|unique:khuyen_mai,id_san_pham',
-            'ty_le'                 =>'required|numeric|digits_between:0,100',
+            'ty_le'                 =>'required|numeric|min:1|max:100',
             'is_open'           =>   'required|boolean',
 
         ];
@@ -35,9 +35,9 @@ class KhuyenMaiRequest extends FormRequest
     {
         return [
             'required'      =>  ':attribute không được để trống',
-            'max'           =>  ':attribute quá dài',
-            'min'           =>  ':attribute quá ngắn',
-            'min_digists'           =>  ':attribute lớn hơn 1',
+            'max'           =>  ':attribute phải bé hơn 100',
+            'min'           =>  ':attribute phải lớn hơn 0',
+            // 'digits_between'=>  ':attribute phải > 0 và < 100 ',
             'exists'        =>  ':attribute không tồn tại',
             'boolean'       =>  ':attribute chỉ được chọn True/False',
             'unique'        =>  ':attribute đã tồn tại',
@@ -48,9 +48,9 @@ class KhuyenMaiRequest extends FormRequest
     public function attributes()
     {
         return [
-            'id_san_pham'=>'sản phẩm',
+            'id_san_pham'=>'Sản phẩm',
             'ty_le'=>'tỷ lệ khuyến mãi',
-            'trang_thai'=>'status',
+            'trang_thai'=>'Tình trạng',
         ];
     }
 }

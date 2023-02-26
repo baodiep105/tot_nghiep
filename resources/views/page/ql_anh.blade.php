@@ -81,7 +81,7 @@
                                         <td>@{{ value.ten_san_pham }}</td>
                                         <td>
                                             <img style="height: 100px;width:125px"
-                                                v-bind:src="'http://127.0.0.1:8000'+value.hinh_anh" alt="">
+                                            v-bind:src="'{{env('APP_URL')}}'+value.hinh_anh" alt="">
 
                                         </td>
                                         <td class="text-center">

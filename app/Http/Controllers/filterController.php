@@ -39,75 +39,75 @@ class filterController extends Controller
         if ($request->id_danh_muc != null && $request->brand != null && $request->khoang_gia != null) {
             switch ($request->khoang_gia) {
                 case 1:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 2:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 3:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
             }
         } else if ($request->id_danh_muc != null && $request->brand != null && $request->khoang_gia == null) {
-            $sanpham = DB::table('san_phams')
-                ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->select('san_phams.*')->paginate(8);
+            $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
 
         } else if ($request->id_danh_muc != null && $request->brand == null && $request->khoang_gia == null) {
-            $sanpham = DB::table('san_phams')
-            ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->select('san_phams.*')->paginate(8);
+            $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+            ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
         }else  if($request->id_danh_muc != null && $request->brand == null && $request->khoang_gia != null){
             switch ($request->khoang_gia) {
                 case 1:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 2:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 3:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.id_danh_muc', $request->id_danh_muc)->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
             }
         }else  if($request->id_danh_muc == null && $request->brand == null && $request->khoang_gia == null){
-                $sanpham = SanPham::where('is_open', 1)->paginate(8);
+                $sanpham = SanPham::where('san_phams.is_open', 1)->paginate(8);
         }else  if($request->id_danh_muc == null && $request->brand != null && $request->khoang_gia != null){
             switch ($request->khoang_gia) {
                 case 1:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 2:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 3:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
             }
         }else if($request->id_danh_muc = null && $request->brand == null && $request->khoang_gia != null){
             switch ($request->khoang_gia) {
                 case 1:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->whereBetween('san_phams.gia_ban', [10, 100])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 2:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->whereBetween('san_phams.gia_ban', [100, 500])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
                 case 3:
-                    $sanpham = DB::table('san_phams')
-                        ->where('is_open', 1)->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*')->paginate(8);
+                    $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+                        ->where('san_phams.is_open', 1)->whereBetween('san_phams.gia_ban', [500, 1000])->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
                     break;
             }
         }else {
-            $sanpham = DB::table('san_phams')
-            ->where('is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->select('san_phams.*')->paginate(8);
+            $sanpham = DB::table('san_phams')->leftjoin('khuyen_mai', 'san_phams.id', 'khuyen_mai.id_san_pham')
+            ->where('san_phams.is_open', 1)->where('san_phams.brand', 'like', '%' . $request->brand . '%')->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->paginate(8);
         }
         $hinh_anh = DB::table('hinh_anh')->get();
         $id_san_pham = array();

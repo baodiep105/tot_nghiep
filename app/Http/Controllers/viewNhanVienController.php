@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class viewNhanVienController extends Controller
 {
+
+    public function main(){
+        return view('nhan_vien.master');
+    }
     public function ViewChiTietSanPham(){
         return view('nhan_vien.SanPham.chi_tiet_san_pham');
     }
@@ -35,5 +39,11 @@ class viewNhanVienController extends Controller
     }
     public function ViewUser(){
         return view('nhan_vien.ql_user');
+    }
+    public function ViewCapNhatDonHang(){
+        return view('nhan_vien.cap_nhat_don_hang');
+    }
+    public function ViewQLDanhGia(){
+        return view ('nhan_vien.danh_gia');
     }
 }

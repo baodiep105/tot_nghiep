@@ -30,3 +30,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   {{-- <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"> --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{{-- <link rel="stylesheet" href="{{URL::to('owlcarousel/assets/owl.carousel.min.css')}}">
+<link rel="stylesheet" href="{{URL::to('owlcarousel/assets/owl.theme.default.min.css')}}"> --}}
+<link rel="stylesheet" href="{{URL::to('owlcarousel/assets/owl.carousel.min.css')}}">
+<link rel="stylesheet" href="{{URL::to('owlcarousel/assets/owl.theme.default.min.css')}}">
+<link rel="stylesheet" href="{{URL::to('project/css/style_owlcarosel.css')}}">
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.1/chart.min.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  .layout-fixed .main-sidebar {
+    bottom: 0;
+    float: none;
+    left: 0;
+    position: fixed;
+    top: 0;
+    overflow: scroll;
+}
+</style>
+

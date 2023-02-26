@@ -11,24 +11,23 @@ class lich_su_mua_hangController extends Controller
 {
     public function getData()
     {
-        $email_user=auth()->user()->email;
-        $donhang=DB::table('don_hangs')
-                    ->join('users','don_hangs.id_user','users.id')
-                    ->where('email',$email_user)
-                    ->orderBy('created_at','DESC')
-                    ->select('don_hangs.*')
-                    ->get();
+        $email_user = auth()->user()->email;
+        $donhang = DB::table('don_hangs')
+            ->where('email', $email_user)
+            ->orderBy('created_at', 'DESC')
+            ->get();
         return response()->json([
-            'donhang'=>$donhang,
+            'status' => 'success',
+            'donhang' => $donhang,
         ]);
     }
 
     public function delete($id)
     {
         $donHang = DonHang::find($id);
-        if($donHang) {
+        if ($donHang) {
             $donHang->delete();
-            $chiTietDonHang=ChiTietDonHang::where('don_hang_id',$id)->delete();
+            $chiTietDonHang = ChiTietDonHang::where('don_hang_id', $id)->delete();
             return response()->json(['status' => true]);
         } else {
             return response()->json([
@@ -40,18 +39,17 @@ class lich_su_mua_hangController extends Controller
     public function detail($id)
     {
         $chitietdonhang = DB::table('chi_tiet_don_hangs')
-                                ->join('san_phams','chi_tiet_don_hangs.san_pham_id','san_phams.id')
-                                ->where('don_hang_id',$id)
-                                ->select('chi_tiet_don_hangs.*','san_phams.ten_san_pham')
-                                ->get();
-        $total=0;
-        foreach($chitietdonhang as $ey => $value){
-        $total+=$value->so_luong*$value->don_gia;
+            ->join('san_phams', 'chi_tiet_don_hangs.san_pham_id', 'san_phams.id')
+            ->where('don_hang_id', $id)
+            ->select('chi_tiet_don_hangs.*', 'san_phams.ten_san_pham')
+            ->get();
+        $total = 0;
+        foreach ($chitietdonhang as $ey => $value) {
+            $total += $value->so_luong * $value->don_gia;
         }
         return response()->json([
-            'status'=>'success',
-            'data' =>$chitietdonhang,
-            'total'=>$total,
+            'status' => 'success',
+            'data' => $chitietdonhang,
         ]);
     }
 }

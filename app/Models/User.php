@@ -28,6 +28,7 @@ class User extends Authenticatable
         'dia_chi',
         'is_block',
         'id_loai',
+        'reset_password '
 
     ];
 

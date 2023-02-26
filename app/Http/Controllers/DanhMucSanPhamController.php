@@ -87,7 +87,7 @@ class DanhMucSanPhamController extends Controller
 
     public function create(RequestsDanhMucSanPham $request)
     {
-        $danhmuc=DanhMucSanPham::create([
+        $danhmuc = DanhMucSanPham::create([
             'ten_danh_muc'      =>  $request->ten_danh_muc,
             'slug_danh_muc'     =>  Str::slug($request->ten_danh_muc),
             'hinh_anh'          =>  $request->hinh_anh,
@@ -102,7 +102,8 @@ class DanhMucSanPhamController extends Controller
         ]);
     }
 
-    public function getData(){
+    public function getData()
+    {
         $danh_muc_cha = DanhMucSanPham::where('id_danh_muc_cha', 0)->get();
 
         $sql = 'SELECT a.*, b.ten_danh_muc as `ten_danh_muc_cha`
@@ -110,13 +111,12 @@ class DanhMucSanPhamController extends Controller
                 on a.id_danh_muc_cha = b.id';
 
         $data = DB::select($sql);
-        $collection=collect($data);
-        $count=$collection->count();
-        $list=array();
-        for($i=$count-1;$i>=0;$i--){
-            array_push($list,$collection[$i]);
+        $collection = collect($data);
+        $count = $collection->count();
+        $list = array();
+        for ($i = $count - 1; $i >= 0; $i--) {
+            array_push($list, $collection[$i]);
         }
-
         return response()->json([
             'list'          => $list,
             'danh_muc_cha'  => $danh_muc_cha,
@@ -126,8 +126,8 @@ class DanhMucSanPhamController extends Controller
     public function doiTrangThai($id)
     {
         $danh_muc = DanhMucSanPham::find($id);
-        if($danh_muc) {
-           $danh_muc->is_open= !$danh_muc->is_open;
+        if ($danh_muc) {
+            $danh_muc->is_open = !$danh_muc->is_open;
             $danh_muc->save();
             return response()->json([
                 'trangThai'         =>  true,
@@ -140,7 +140,8 @@ class DanhMucSanPhamController extends Controller
         }
     }
 
-    public function update(updatdeDanhMucRequest $request){
+    public function update(updatdeDanhMucRequest $request)
+    {
 
         $danh_muc = DanhMucSanPham::find($request->idEdit);
 
@@ -157,14 +158,15 @@ class DanhMucSanPhamController extends Controller
         ]);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $danh_muc = DanhMucSanPham::find($id);
-        if($danh_muc) {
+        if ($danh_muc) {
             $danh_muc_cha = DanhMucSanPham::where('id_danh_muc_cha', 0)->get();
             return response()->json([
                 'status'  =>  true,
                 'danhMuc'    =>  $danh_muc,
-                'danhMucCha'=>$danh_muc_cha,
+                'danhMucCha' => $danh_muc_cha,
             ]);
         } else {
             // toastr()->error("Danh mục không tồn tại!")
@@ -172,10 +174,11 @@ class DanhMucSanPhamController extends Controller
         }
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $danh_muc = DanhMucSanPham::find($id);
-        if($danh_muc) {
-           DB::table('san_phams')->join('chi_tiet_san_pham','san_phams.id','chi_tiet_san_pham.id_sanpham')->where('id_danh_muc',$id)->delete();
+        if ($danh_muc) {
+            DB::table('san_phams')->join('chi_tiet_san_pham', 'san_phams.id', 'chi_tiet_san_pham.id_sanpham')->where('id_danh_muc', $id)->delete();
             $danh_muc->delete();
             return response()->json([
                 'status'  =>  true,
@@ -187,10 +190,20 @@ class DanhMucSanPhamController extends Controller
         }
     }
 
-    public function search(Request $request){
-        $data = DanhMucSanPham::where('ten_danh_muc', 'like', '%' . $request->search .'%')->get();
+    public function search(Request $request)
+    {
+        if ($request->search == "") {
+            $data = DB::table('danh_muc_san_phams as a')->leftJoin('danh_muc_san_phams as b', 'a.id_danh_muc_cha', 'b.id')->select('a.*', 'b.ten_danh_muc as ten_danh_muc_cha')->get();
+        } else
+            $data =             $data = DB::table('danh_muc_san_phams as a')
+                ->leftJoin('danh_muc_san_phams as b', 'a.id_danh_muc_cha', 'b.id')
+                ->select('a.*', 'b.ten_danh_muc as ten_danh_muc_cha')
+                ->Where('a.ten_danh_muc', 'like', '%' . $request->search . '%')
+                ->orWhere('a.created_at', 'like', '%' . $request->search . '%')
+                ->get();
+        // dd($data);
         return response()->json([
-            'dataSearch' => $data
+            'search' => $data
         ]);
     }
 }

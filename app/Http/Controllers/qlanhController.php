@@ -7,6 +7,7 @@ use App\Models\Anh;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class qlanhController extends Controller
 {
@@ -65,39 +66,54 @@ class qlanhController extends Controller
     public function create(Request $request)
     {
         // dd($request->all());
-        $anh=Anh::create([
-            'anh'=>$request->hinh_anh,
-            'id_san_pham'=>$request->id_san_pham,
+        $rules = [
+            'hinh_anh'  => 'required',
+            'id_san_pham'     => 'required',
+        ];
+
+        $input     = $request->all();
+
+        $validator = Validator::make($input, $rules, [
+            'required'      =>  ':attribute không được để trống',
+        ], [
+            'hinh_anh' => 'hinh ảnh',
+            'id_san_pham' => 'sản phẩm',
+        ]);
+        $anh = Anh::create([
+            'hinh_anh' => $request->hinh_anh,
+            'id_san_pham' => $request->id_san_pham,
         ]);
 
         return response()->json([
             'trangThai'         =>  true,
-            'anh'=>$anh,
+            'anh' => $anh,
         ]);
     }
 
-        public function getData(){
+    public function getData()
+    {
 
-            // $sanPham =DB::table('san_phams')
-            //             ->join('hinh_anh','san_phams.id','hinh_anh.id')
-            //             ->select('san_phams.ten_san_pham','hinh_anh.hinh_anh')
-            //             ->get();
-            $sanPham=DB::table('hinh_anh')->join('san_phams','hinh_anh.id_san_pham','san_phams.id')->select('hinh_anh.*','san_phams.ten_san_pham')->orderBy('created_at','DESC')->get();
-            $data=SanPham::where('is_open',1)->get();
-            return response()->json([
-                'sanPham'  => $sanPham,
-                'data'     =>  $data,
-            ]);
-        }
+        // $sanPham =DB::table('san_phams')
+        //             ->join('hinh_anh','san_phams.id','hinh_anh.id')
+        //             ->select('san_phams.ten_san_pham','hinh_anh.hinh_anh')
+        //             ->get();
+        $sanPham = DB::table('hinh_anh')->join('san_phams', 'hinh_anh.id_san_pham', 'san_phams.id')->select('hinh_anh.*', 'san_phams.ten_san_pham')->orderBy('created_at', 'DESC')->get();
+        $data = SanPham::where('is_open', 1)->get();
+        return response()->json([
+            'sanPham'  => $sanPham,
+            'data'     =>  $data,
+        ]);
+    }
 
 
-    public function update(editAnhRequest $request){
+    public function update(editAnhRequest $request)
+    {
         // $data     = $request->all();
         $anh = Anh::find($request->id);
 
         $anh->update([
             'id_san_pham'      =>  $request->id_san_pham,
-            'hinh_anh'         =>$request->hinh_anh,
+            'hinh_anh'         => $request->hinh_anh,
         ]);
         return response()->json([
             'status' => true,
@@ -105,10 +121,10 @@ class qlanhController extends Controller
         ]);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $anh = Anh::find($id);
-        if($anh) {
-            $anh = Anh::first();
+        if ($anh) {
             return response()->json([
                 'status'  =>  true,
                 'anh'    =>  $anh,
@@ -119,9 +135,10 @@ class qlanhController extends Controller
         }
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $anh = Anh::find($id);
-        if($anh) {
+        if ($anh) {
             $anh->delete();
             return response()->json([
                 'status'  =>  true,
@@ -133,10 +150,15 @@ class qlanhController extends Controller
         }
     }
 
-    public function search(Request $request){
-        $data = Anh::where('ten_danh_muc', 'like', '%' . $request->search .'%')->get();
+    public function search(Request $request)
+    {
+        if ($request->search == "") {
+            $data = DB::table('hinh_anh')->join('san_phams', 'hinh_anh.id_san_pham', 'san_phams.id')->select('san_phams.ten_san_pham', 'hinh_anh.hinh_anh')->orderBy('hinh_anh.created_at','DESC')->get();
+        } else {
+            $data = DB::table('hinh_anh')->join('san_phams', 'hinh_anh.id_san_pham', 'san_phams.id')->where('san_phams.ten_san_pham', 'like', '%' . $request->search . '%')->select('san_phams.ten_san_pham', 'hinh_anh.hinh_anh')->orderBy('hinh_anh.created_at','DESC')->get();
+        }
         return response()->json([
-            'dataSearch' => $data
+            'data' => $data
         ]);
     }
 }

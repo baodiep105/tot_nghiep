@@ -12,6 +12,7 @@
                 idDelete: 0,
                 idEdit: 0,
                 inputSearch: '',
+                role:0,
             },
 
             created() {
@@ -25,21 +26,24 @@
                         'username': this.username,
                         'password': this.password,
                         're_password': this.re_password,
+                        'role':this.role,
                     };
                     console.log(payload)
                     axios
                         .post('/admin/quan-ly-nhan-vien/create', payload)
                         .then((res) => {
+                            if(res.data.status){
                             // console.log(res);
                             toastr.success('Thêm mới thành công!');
-                            this.getData();
-                        })
-                        .catch((res) => {
-                            var danh_sach_loi = res.response.data.errors;
-                            $.each(danh_sach_loi, function(key, value) {
+                            this.getData();}
+                            else{
+                                var danh_sach_loi = res.data.error;
+                                 $.each(danh_sach_loi, function(key, value) {
                                 toastr.error(value[0]);
                             });
-                        });
+                            }
+                        })
+
                 },
                 getData() {
                     axios
@@ -99,7 +103,7 @@
                     var payload = {
                         'id': this.idEdit,
                         'password': this.password_edit,
-                        're_password': this.password_edit,
+                        're_password': this.re_password_edit,
                     };
 
                     // console.log(payload);
@@ -107,17 +111,22 @@
                     axios
                         .post('/admin/quan-ly-nhan-vien/update', payload)
                         .then((res) => {
-                            // console.log(res);
+                            if(res.data.status){
                             toastr.success('Cập nhật thành công!');
-                            this.getData();
-                        })
-                        .catch((res) => {
-                            var danh_sach_loi = res.response.data.errors;
-                            $.each(danh_sach_loi, function(key, value) {
+                            this.getData();}
+                            else{
+                                var danh_sach_loi = res.data.error;
+                                 $.each(danh_sach_loi, function(key, value) {
                                 toastr.error(value[0]);
                             });
-                        });
+                            }
+                        })
+                        // .catch((res) => {
+                        //     var danh_sach_loi = res.response.data.errors;
+                        //     $.each(danh_sach_loi, function(key, value) {
+                        //         toastr.error(value[0]);
+                        //     });
+                        // });
                 },
             },
         });
-    

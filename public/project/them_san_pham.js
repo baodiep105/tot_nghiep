@@ -11,8 +11,8 @@
                 brand           :   '',
                 mo_ta_ngan      :   '',
                 mo_ta_chi_tiet  :   '',
-                id_danh_muc     :   0,
-                is_open         :   0,
+                id_danh_muc     :   '',
+                is_open         :   1,
             },
         },
         created() {

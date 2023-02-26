@@ -11,7 +11,7 @@ class Anh extends Model
 
     protected $table='hinh_anh';
     protected $fillable=[
-        'anh',
+        'hinh_anh',
         'id_san_pham',
     ];
 }

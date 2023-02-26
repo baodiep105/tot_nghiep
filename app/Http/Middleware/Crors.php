@@ -16,7 +16,7 @@ class Crors
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request)
-       
+        return $next($request);
+
     }
 }

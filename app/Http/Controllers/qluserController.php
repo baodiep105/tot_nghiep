@@ -7,22 +7,25 @@ use Illuminate\Http\Request;
 
 class qluserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin.ql_user');
     }
 
-    public function getData(){
-        $user=User::where('id_loai',2)->get();
+    public function getData()
+    {
+        $user = User::where('id_loai', 2)->get();
         return response()->json([
-           'user'=>$user,
+            'user' => $user,
         ]);
     }
 
-    public function changeStatus($id){
-        $user = User::find($id);
-        if($user) {
+    public function changeStatus(Request $request)
+    {
+        $user = User::find($request->id);
+        if ($user) {
             // $san_pham->is_block = !$san_pham->is_open;
-            if($user->is_block == 1) {
+            if ($user->is_block == 1) {
                 $user->is_block = 0;
             } else {
                 $user->is_block = 1;
@@ -35,7 +38,7 @@ class qluserController extends Controller
     public function delete($id)
     {
         $user = User::find($id);
-        if($user) {
+        if ($user) {
             $user->delete();
             return response()->json(['status' => true]);
         } else {
@@ -46,12 +49,18 @@ class qluserController extends Controller
     }
     public function search(Request $request)
     {
-        if($request->all()==null){
-            $data=user::all();
+        // dd($request->search);
+        $search=$request->search;
+        // dd($search); 
+        if($search==""){
+            $data=User::where('id_loai',2)->get();
+        }else{
+        $data = User::where('id_loai', 2)->where(function ($query) use($search){
+            $query->where('username', 'like', '%' .$search. '%');
+            $query->orWhere('email', 'like', '%' . $search . '%');
+        })->get();
+        // dd($data);
         }
-        $data = User::where('username', 'like', '%' . $request->search .'%')->orWhere('email', 'like', '%' . $request->search .'%')
-                      ->get();
-
         return response()->json(['data' => $data]);
     }
 }

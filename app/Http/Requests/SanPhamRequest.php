@@ -27,7 +27,7 @@ class SanPhamRequest extends FormRequest
         return [
             'ten_san_pham'         =>   'required|max:100|unique:san_phams,ten_san_pham',
            // 'slug_san_pham'        =>   'required|unique:san_phams,slug_san_pham',
-            'gia_ban'              =>   'required|numeric|min:  1',
+            'gia_ban'              =>   'required|numeric|min:1',
             'brand'                =>   'required',
             'mo_ta_ngan'           =>   'required',
             'mo_ta_chi_tiet'       =>   'required',
@@ -41,7 +41,7 @@ class SanPhamRequest extends FormRequest
         return [
             'required'      =>  ':attribute không được để trống',
             'max'           =>  ':attribute quá dài',
-            'min'           =>  ':attribute quá ngắn',
+            'min'           =>  ':attribute phải lớn hơn 0  ',
             'exists'        =>  ':attribute không tồn tại',
             'boolean'       =>  ':attribute chỉ được chọn True/False',
             'unique'        =>  ':attribute đã tồn tại',
@@ -55,7 +55,7 @@ class SanPhamRequest extends FormRequest
             'ten_san_pham'         =>   'Tên sản phẩm',
 
             'gia_ban'              =>   'Giá bán',
-            'brand'                =>   'brand',
+            'Thương'                =>   'Thương hiệu',
             'mo_ta_ngan'           =>   'Mô tả ngắn',
             'mo_ta_chi_tiet'       =>   'Mô tả chi tiết',
             'id_danh_muc'          =>   'Danh mục',

@@ -5,7 +5,7 @@ new Vue({
         idDelete                :   0,
         inputSearch:'',
         donhang :[],
-        url:'',
+        status:'',
     },
 
     created(){
@@ -21,10 +21,14 @@ new Vue({
                 })
         },
 
-        doiTrangThai(id) {
-            console.log(id);
+        doiTrangThai(id,event) {
+            console.log(id)
+            console.log(event)
+            var payload={
+                'value':event,
+            }
             axios
-                .get('/admin/quan-ly-don-hang/changeStatus/' + id)
+                .put('/admin/quan-ly-don-hang/changeStatus/' + id,payload)
                 .then((res) => {
                     if(res.data.status) {
                         toastr.success('Đã đổi trạng thái thành công!');

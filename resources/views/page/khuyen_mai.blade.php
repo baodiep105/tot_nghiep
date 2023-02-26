@@ -1,5 +1,5 @@
 <div id="app">
-    <div class="row justify-content-end mb-2">
+    {{-- <div class="row justify-content-end mb-2">
         <div class="col-md-5">
             <div class="input-group ">
                 <input type="text" v-model="inputSearch" class="form-control" placeholder="search"
@@ -8,7 +8,7 @@
                     id="button-addon2">search</button>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-md-4">
             <div class="card" style="height: auto">
@@ -137,7 +137,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" v-model="idDelete" placeholder="Nhập vào id cần xóa">
+                    <input type="text" class="form-control" v-model="idDelete" placeholder="Nhập vào id cần xóa" hidden>
                     Bạn có chắc chắn muốn xóa? Điều này không thể hoàn tác.
                 </div>
                 <div class="modal-footer">
@@ -159,7 +159,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="position-relative form-group">
-                        <input type="text" v-model="update.idEdit">
+                        <input type="text" v-model="update.idEdit" hidden>
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="issueinput6">Tên sản phẩm</label>

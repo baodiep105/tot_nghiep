@@ -20,7 +20,7 @@ class mauRequest extends FormRequest
     {
         return [
             'ten_mau'   => 'required|unique:mau_sac,ten_mau',
-            'ma_mau'    =>['required','unique:mau_sac,hex','regex:/(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/i'],
+            'ma_mau'    =>['required','unique:mau_sac,hex','regex:/(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))/i','unique:mau_sac,hex'],
 
         ];
     }
@@ -33,15 +33,15 @@ class mauRequest extends FormRequest
             'exists'        =>  ':attribute không tồn tại',
             'boolean'       =>  ':attribute chỉ được chọn True/False',
             'unique'        =>  ':attribute đã tồn tại',
-            'regex'         =>  ':attribute phải đúng định dạng',
+            'regex'         =>  ':attribute phải bắt đầu bằng #',
         ];
     }
 
     public function attributes()
     {
         return [
-            'ten_mau'      =>  'màu',
-            'ma_mau'      =>  'mã màu',
+            'ten_mau'      =>  'Màu',
+            'ma_mau'      =>  'Mã màu',
         ];
     }
 }

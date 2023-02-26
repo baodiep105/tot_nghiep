@@ -24,9 +24,12 @@
             },
 
             doiTrangThai(id) {
+                var payload={
+                    'id': id,
+                }
                 console.log(id);
                 axios
-                    .get('/admin/quan-ly-user/changeStatus/' + id)
+                    .post('/admin/quan-ly-user/changeStatus', payload)
                     .then((res) => {
                         if(res.data.status) {
                             toastr.success('Đã đổi trạng thái thành công!');

@@ -22,9 +22,9 @@ class HomeController extends Controller
     public function arrival()
     {
         $sanPham =DB::table('san_phams')->leftjoin('khuyen_mai','san_phams.id','khuyen_mai.id_san_pham')->where('san_phams.is_open',1)->where(function($query){
-            $query->where('san_phams.created_at', '>', Carbon::now()->subDay(30));
-            $query->orwhere('san_phams.created_at', '=', Carbon::now()->subDay(30));
-        })->take(8)->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->get();
+            $query->where('san_phams.created_at', '>', Carbon::now()->subDay(365));
+            $query->orwhere('san_phams.created_at', '=', Carbon::now()->subDay(365));
+        })->orderBy('created_at','DESC')->take(8)->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')->get();
         $hinh_anh = DB::table('hinh_anh')->get();
         $id = array();
         foreach ($sanPham as $value) {
@@ -61,7 +61,10 @@ class HomeController extends Controller
     }
     public function product()
     {
-        $sanPham = SanPham::take(8)->get();
+        $sanPham =DB::table('san_phams')->leftjoin('khuyen_mai','san_phams.id','khuyen_mai.id_san_pham')
+                                        ->orderBy('created_at','DESC')
+                                        ->select('san_phams.*','khuyen_mai.ty_le as khuyen_mai')
+                                        ->take(8)->get();
         $hinh_anh = DB::table('hinh_anh')->get();
         $id = array();
         foreach ($sanPham as $value) {

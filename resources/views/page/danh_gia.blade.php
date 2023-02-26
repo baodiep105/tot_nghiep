@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="card-content collapse show">
-                    <div class="row mt-2 ml-2 mb-2">
+                    {{-- <div class="row mt-2 ml-2 mb-2">
                         <div class="col-md-4">
                             <div class="input-group ">
                                 <input type="text" v-model="inputSearch" class="form-control" placeholder="search"
@@ -19,7 +19,7 @@
                                     id="button-addon2">search</button>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="table-responsive">
                         <table class="table table-bordered mb-0">
                             <thead>

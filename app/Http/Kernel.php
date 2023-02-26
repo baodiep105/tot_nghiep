@@ -40,6 +40,14 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // \App\Http\Middleware::class,
+            // \App\Http\Middleware\all::class,
+            // \App\Http\Middleware\staff::class,
+            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            // 'throttle:api',
+            // \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // 'cors',
+            // \App\Http\Middleware\AddAcceptToHeader::class
         ],
 
         'api' => [
@@ -68,5 +76,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors'     =>  \App\Http\Middleware\Cors::class,
+        'all'      =>    \App\Http\Middleware\all::class,
+        'staff'      =>    \App\Http\Middleware\staff::class,
+        'admin'      =>    \App\Http\Middleware\admin::class,
     ];
 }

@@ -7,12 +7,12 @@
       </p>
     </a>
     <ul class="nav nav-treeview" style="display: block;">
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a href="/nhan-vien/them-san-pham" class="nav-link ">
           <i class="far fa-circle nav-icon"></i>
           <p>Thêm sản Phẩm Mới</p>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a href="/nhan-vien/quan-ly-san-pham" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
@@ -81,10 +81,18 @@
 </a>
 </li>
 <li class="nav-item">
-<a href="/nhan-vien/quan-ly-danh-gia" class="nav-link">
+<a href="/nhan-vien/cap-nhat-don-hang" class="nav-link">
   <i class="nav-icon fas fa-columns"></i>
   <p>
     Cập Nhật Đơn Hàng
   </p>
 </a>
+</li>
+<li class="nav-item">
+    <a href="/logout" class="nav-link">
+      <i class="nav-icon fas fa-columns"></i>
+      <p>
+        Logout
+      </p>
+    </a>
 </li>

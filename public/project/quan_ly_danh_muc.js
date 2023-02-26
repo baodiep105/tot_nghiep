@@ -10,20 +10,21 @@ new Vue({
         inputSearch: '',
         add: {
             ten_danh_muc: '',
-            hinh_anh: 'ádasd',
-            id_danh_muc_cha: 0,
+            hinh_anh: '',
+            id_danh_muc_cha: '',
             is_open: 1,
         },
         idEdit: 0,
         ten_danh_muc_edit: '',
         hinh_anh_edit: '',
-        id_danh_muc_cha_edit: 0,
+        id_danh_muc_cha_edit: '',
         is_open_edit: 1,
         anh:'',
     },
 
     created() {
         this.getData();
+        // console.log(this.list_vue)
     },
 
     methods: {
@@ -90,14 +91,17 @@ new Vue({
 
         search() {
             var payload = {
-                'search': this.inputSearch,
+                'search'    :   this.inputSearch,
             };
+            console.log(this.inputSearch)
             axios
                 .post('/admin/danh-muc/search', payload)
                 .then((res) => {
-                    this.list_vue = res.data.datasearch;
+                    this.list_vue    = res.data.search;
+                    console.log(this.list_vue);
                 });
         },
+
 
         deleteDanhMuc(id) {
             this.idDelete = id;
@@ -158,17 +162,6 @@ new Vue({
                     $.each(danh_sach_loi, function(key, value) {
                         toastr.error(value[0]);
                     });
-                });
-        },
-        search() {
-            var payload = {
-                'tenDanhMuc': this.inputSearch,
-            };
-            axios
-                .post('/admin/danh-muc/search', payload)
-                .then((res) => {
-                    this.list_vue = res.data.dataSearch;
-                    console.log(this.list_vue);
                 });
         },
     },

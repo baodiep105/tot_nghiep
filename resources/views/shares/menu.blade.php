@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a href="/admin/quan-ly-user/index" class="nav-link">
+    <a href="/admin/thong-ke/all" class="nav-link">
       <i class="nav-icon fas fa-columns"></i>
       <p>
        Thống kê
@@ -15,12 +15,12 @@
       </p>
     </a>
     <ul class="nav nav-treeview" style="display: block;">
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a href="/admin/create-san-pham" class="nav-link ">
           <i class="far fa-circle nav-icon"></i>
           <p>Thêm sản Phẩm Mới</p>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a href="/admin/quan-ly-san-pham" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
@@ -101,6 +101,14 @@
       <i class="nav-icon fas fa-columns"></i>
       <p>
         Quản Lý Đơn hàng
+      </p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/logout" class="nav-link">
+      <i class="nav-icon fas fa-columns"></i>
+      <p>
+        Logout
       </p>
     </a>
 </li>
