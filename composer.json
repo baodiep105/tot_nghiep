@@ -11,6 +11,7 @@
         "laravel/framework": "^8.75",
         "laravel/helpers": "^1.5",
         "laravel/sanctum": "^2.15",
+        "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.5",
         "unisharp/laravel-filemanager": "~1.8",
         "yoeunes/toastr": "^2.0"

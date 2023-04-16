@@ -7,6 +7,7 @@ use App\Http\Requests\request as RequestsRequest;
 use App\Models\Banner;
 use App\Models\DanhMucSanPham as ModelsDanhMucSanPham;
 use App\Models\MauSacModel;
+use App\Models\ChiTietSanPhamModel;
 use App\Models\SanPham;
 use App\Models\sanphamyeuthichmodel;
 use App\Models\sizeModel;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use SanPhamYeuThich;
-
+use Cookie;
 class HomeController extends Controller
 {
     public function arrival()
@@ -114,12 +115,36 @@ class HomeController extends Controller
         ]);
     }
 
+    public function test(){
+        // session_start();
+        // $a=new stdClass;
+        // $a->email= "hoangthanhwork123@gmail.com";
+        // $a->tong_tien= 81.26;
+        // $a->thuc_tra= 81.26;
+        // $a->tien_giam= 0;
+        // $a->dia_chi= "Thành phố Hà Nội - Quận Hoàn Kiếm -  - 12343";
+        // $a->nguoi_nhan= "Quang Nguyễn";
+        // $a->sdt= "0772531816";
+        // $a->ghi_chu= "rẻwe";
+        setcookie('asd', 'adsasd', time() + (86400 * 30), "/");
+        dd($_COOKIE);
+        return response()->json(
+            [
+                'dasdas'=>$_COOKIE['asd'],
+            ]
+        );
+    }
+    public function test_session(){
+        session_start();
+       dd($_SESSION['a']);
+    }
     public function yeu()
     {
         $data = DB::table('san_pham_yeu_thich')->join('san_phams', 'san_pham_yeu_thich.id_san_pham', 'san_phams.id')
             ->where('id_user', auth()->user()->id)
             ->select('san_phams.*', 'san_pham_yeu_thich.id as id_yeu_thich')
             ->get();
+
         $hinh_anh = DB::table('hinh_anh')->get();
         $id = array();
         foreach ($data as $value) {
@@ -133,8 +158,12 @@ class HomeController extends Controller
                     break;
                 }
             }
-
+        // return response()->json([
+        //     'anh'=>$dat,
+        // ]);
         foreach ($data as $value) {
+            $a=ChiTietSanPhamModel::where('id_sanpham',$value->id)->sum('sl_chi_tiet');
+            $value->tinh_trang=($a==0)?0:1;
             foreach ($anh as $key) {
                 if ($value->id == $key->id_san_pham) {
                     $value->hinh_anh = $key->hinh_anh;
@@ -142,6 +171,7 @@ class HomeController extends Controller
                 }
             }
         }
+
         return response()->json([
             'status' => 'success',
             'data' => $data,

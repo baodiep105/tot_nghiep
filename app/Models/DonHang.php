@@ -20,6 +20,7 @@ class DonHang extends Model
         'dia_chi',
         'nguoi_nhan',
         'sdt',
-        'ghi_chu'
+        'ghi_chu',
+        'loai_thanh_toan',
     ];
 }

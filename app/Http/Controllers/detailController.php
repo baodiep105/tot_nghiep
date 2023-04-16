@@ -152,7 +152,8 @@ class detailController extends Controller
             ->join('chi_tiet_san_pham as ctsp', 'ct.id_chi_tiet_san_pham', 'ctsp.id')
             ->where('dh.email', $request->email)
             ->where('ctsp.id_sanpham', $id)
-            ->get();
+            ->exists();
+
             // return response()->json([
             //     'status' => 'success',
             //     'data'  => $exist,

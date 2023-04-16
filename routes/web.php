@@ -32,6 +32,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+Route::get('/redirect', function(){
+    return Socialite::driver('google')->redirect();
+});
 Route::get('/check-cookie',[loginController::class,'check']);
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/auth/me',[UserController::class,'getme']);
