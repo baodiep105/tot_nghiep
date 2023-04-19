@@ -132,15 +132,7 @@ Route::middleware('all')->prefix('/admin')->group( function () {
         Route::post('/search', [DonHangController::class, 'search']);
     });
 
-    Route::middleware('admin')->prefix('/quan-ly-nhan-vien')->group( function () {
-        Route::post('/create', [NhanVienController::class, 'create']);
-        Route::get('/getData', [NhanVienController::class, 'getData']);
-        Route::post('/update', [NhanVienController::class, 'update']);
-        Route::delete('/delete/{id}', [NhanVienController::class, 'delete']);
-        Route::post('/search', [NhanVienController::class, 'search']);
-        // Route::post('/login', [NhanVienController::class, 'login']);
 
-    });
     Route::group(['prefix' => '/quan-ly-anh'], function () {
         Route::post('/create', [qlanhController::class, 'create']);
         Route::get('/getData', [qlanhController::class, 'getData']);
@@ -211,3 +203,12 @@ Route::middleware('all')->prefix('/admin')->group( function () {
 // Route::group(['prefix' => 'laravel-filemanager'], function () {
 //     \UniSharp\LaravelFilemanager\Lfm::routes();
 // });
+ // Route::middleware('admin')->prefix('/quan-ly-nhan-vien')->group( function () {
+        Route::post('admin/quan-ly-nhan-vien/create', [NhanVienController::class, 'create']);
+        Route::get('admin/quan-ly-nhan-vien/getData', [NhanVienController::class, 'getData']);
+        Route::post('admin/quan-ly-nhan-vien/update', [NhanVienController::class, 'update']);
+        Route::delete('admin/quan-ly-nhan-vien/delete/{id}', [NhanVienController::class, 'delete']);
+        Route::post('admin/quan-ly-nhan-vien/search', [NhanVienController::class, 'search']);
+        // Route::post('/login', [NhanVienController::class, 'login']);
+        Route::get('admin/quan-ly-nhan-vien', [NhanVienController::class, 'index']);
+    // });

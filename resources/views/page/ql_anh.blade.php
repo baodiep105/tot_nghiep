@@ -81,7 +81,7 @@
                                         <td>@{{ value.ten_san_pham }}</td>
                                         <td>
                                             <img style="height: 100px;width:125px"
-                                            v-bind:src="'{{env('APP_URL')}}'+value.hinh_anh" alt="">
+                                            v-bind:src="value.hinh_anh" alt="">
 
                                         </td>
                                         <td class="text-center">

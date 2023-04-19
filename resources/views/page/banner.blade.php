@@ -128,23 +128,23 @@
                                         <th class="text-nowrap text-center">@{{ key + 1 }}</th>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                            v-bind:src="'{{env('APP_URL')}}'+value.banner_1" alt="">
+                                            v-bind:src="value.banner_1" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_2" alt="">
+                                                v-bind:src="value.banner_2" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_3" alt="">
+                                                v-bind:src="value.banner_3" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_4" alt="">
+                                                v-bind:src="value.banner_4" alt="">
                                         </td>
                                         <td>
                                             <img style="height: 50px;width:50px"
-                                                v-bind:src="'{{env('APP_URL')}}'+value.banner_5" alt="">
+                                                v-bind:src="value.banner_5" alt="">
                                         </td>
                                         <td>
                                             <template v-if="value.is_open==1">

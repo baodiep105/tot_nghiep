@@ -80,6 +80,7 @@ class loginController extends Controller
                 'error' => $validator->errors(),
             ]);
         }
+        // dd(User::where('username', $request['username'])->firstOrFail());
         if (!Auth('web')->attempt($request->only('username', 'password'))) {
             return response()->json([
                 'status'=>'erorr',
