@@ -17,7 +17,7 @@ class CreateDanhGiasTable extends Migration
             $table->id();
             $table->longText('content');
             $table->integer('rate');
-            $table->integer('id_user');
+            $table->integer('email');
             $table->timestamps();
         });
     }

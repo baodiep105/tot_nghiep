@@ -15,7 +15,7 @@ class CreateDonHangsTable extends Migration
     {
         Schema::create('don_hangs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user');
+            $table->string('email');
             $table->double('tong_tien', 18, 0);
             $table->double('tien_giam_gia', 18, 0);
             $table->double('thuc_tra', 18, 0);
@@ -23,6 +23,8 @@ class CreateDonHangsTable extends Migration
             $table->String('dia_chi');
             $table->String('nguoi_nhan');
             $table->String('sdt');
+            $table->longtext('ghi_chu')->nullable();
+            $table->integer('loai_thanh_toan');
             $table->timestamps();
         });
     }

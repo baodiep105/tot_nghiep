@@ -18,7 +18,7 @@ class CreateChiTietDonHangsTable extends Migration
             $table->integer('chi_tiet_san_pham_id');
             $table->integer('so_luong')->default(1);
             $table->double('don_gia', 18, 0);
-            $table->integer('don_hang_id')->nullable();
+            $table->integer('don_hang_id');
             $table->timestamps();
         });
     }

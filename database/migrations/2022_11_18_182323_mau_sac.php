@@ -16,6 +16,7 @@ class MauSac extends Migration
         Schema::create('mau_sac', function (Blueprint $table) {
             $table->id();
             $table->string('ten_mau');
+            $table->string('hex');
             $table->timestamps();
         });
     }

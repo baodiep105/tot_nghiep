@@ -17,6 +17,7 @@ class KhuyenMai extends Migration
             $table->id();
             $table->integer('id_san_pham');
             $table->integer('ty_le');
+            $table->integer('is_open');
             $table->timestamps();
         });
     }

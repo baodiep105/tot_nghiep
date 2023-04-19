@@ -16,14 +16,16 @@ class Users extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->string('ho_lot')->nullable();
-            $table->string('ten')->nullable();
+            $table->string('full_name')->nullable();
             $table->string('sdt')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
-            $table->string('dia_chi')->nullable();
+            $table->string('hash');
+            $table->integer('is_email');
+            $table->longtext('dia_chi')->nullable();
             $table->integer('is_block')->default(1);
             $table->integer('id_loai');
+            $table->string('reset_password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
